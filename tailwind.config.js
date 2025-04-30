@@ -7,8 +7,8 @@ export default {
 				pixel: ["VT323", "monospace"], // 像素字型，與網站一致
 			},
 			colors: {
-				primary: "#F4A7C4", // 粉色
-				secondary: "#A78BFA", // 紫色
+				primary: "#fae3f9", // 粉色
+				secondary: "#ede3fa", // 紫色
 			},
 		},
 	},
