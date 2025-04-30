@@ -49,6 +49,14 @@ export const TodoProvider = ({ children }) => {
 		);
 	};
 
+   // 處理項目排序
+    const reorderTodo = (fromIndex, toIndex) => {
+		const updatedTodos = [...todos];
+		const [movedTodo] = updatedTodos.splice(fromIndex, 1);
+		updatedTodos.splice(toIndex, 0, movedTodo);
+		setTodos(updatedTodos);
+	};
+
 	// 篩選和搜尋邏輯
 	const filteredTodos = todos
 		.filter((todo) => {
@@ -68,6 +76,7 @@ export const TodoProvider = ({ children }) => {
 				toggleTodo,
 				deleteTodo,
 				editTodo,
+                reorderTodo,
 				setFilter,
 				setSearch,
 			}}
