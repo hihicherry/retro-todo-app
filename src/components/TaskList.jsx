@@ -6,7 +6,7 @@ function TaskList() {
 	const { todos } = useContext(TodoContext);
 
 	return (
-		<div className="max-h-64 overflow-y-auto">
+		<div className="max-h-64 overflow-y-auto custom-scrollbar">
 			{todos.length === 0 ? (
 				<p className="text-gray-500 font-pixel text-center">
 					尚未新增待辦事項！
