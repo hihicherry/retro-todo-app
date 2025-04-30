@@ -21,13 +21,13 @@ function TaskForm() {
 				value={text}
 				onChange={(e) => setText(e.target.value)}
 				placeholder="新增項目"
-				className="border-2 border-gray-800 p-2 w-full mb-2 font-pixel text-gray-800 focus:outline-none focus:border-primary"
+				className="border-2 border-sky-500 p-2 w-full mb-2 font-pixel text-gray-800 focus:outline-none focus:border-sky-300"
 				aria-label="Task description"
 			/>
 			<select
 				value={category}
 				onChange={(e) => setCategory(e.target.value)}
-				className="border-2 border-gray-800 p-2 w-full mb-2 font-pixel text-gray-800 focus:outline-none"
+				className="border-2 border-sky-500 p-2 w-full mb-2 font-pixel text-gray-800 focus:outline-none"
 				aria-label="項目類別"
 			>
 				<option value="Work">工作</option>
@@ -35,7 +35,7 @@ function TaskForm() {
 			</select>
 			<button
 				type="submit"
-				className="bg-primary text-white px-4 py-2 border-2 border-gray-800 shadow-[4px_4px_0_0_rgba(0,0,0,0.2)] hover:shadow-none transition-all font-pixel"
+				className="bg-sky-300 text-white px-2 py-2 border-2 border-blue-500 shadow-[4px_4px_0_0_rgba(0,0,0,0.2)] hover:shadow-none transition-all font-pixel"
 			>
 				新增待辦事項
 			</button>

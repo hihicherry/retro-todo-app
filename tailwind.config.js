@@ -4,7 +4,7 @@ export default {
 	theme: {
 		extend: {
 			fontFamily: {
-				pixel: ["VT323", "monospace"], // 像素字型，與網站一致
+				pixel: ['"pixel"', "sans-serif"], // 像素字型，與網站一致
 			},
 			colors: {
 				primary: "#fae3f9", // 粉色
