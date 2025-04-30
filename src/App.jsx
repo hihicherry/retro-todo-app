@@ -3,6 +3,7 @@ import { TodoProvider } from "./context/TodoContext";
 import PixelWindow from "./components/PixelWindow";
 import TaskForm from "./components/TaskForm";
 import TaskList from "./components/TaskList";
+import FilterBar from "./components/FilterBar";
 import "./index.css";
 
 function App() {
@@ -12,6 +13,7 @@ function App() {
 				<PixelWindow title="待辦事項清單">
 					<div className="p-4">
 						<TaskForm />
+						<FilterBar />
 						<TaskList />
 					</div>
 				</PixelWindow>
