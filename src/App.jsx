@@ -1,11 +1,23 @@
+// src/App.jsx
 import React from "react";
-import "./App.css";
+import { TodoProvider } from "./context/TodoContext";
+import PixelWindow from "./components/PixelWindow";
+import "./index.css";
 
 function App() {
 	return (
-		<div className="min-h-screen bg-gray-100 flex items-center justify-center">
-			<h1 className="text-3xl font-bold">Retro todo app</h1>
-		</div>
+		<TodoProvider>
+			<div className="min-h-screen bg-gradient-to-br from-primary to-secondary flex items-center justify-center p-4">
+				<PixelWindow title="Todo App">
+					<div className="p-4">
+						<h2 className="text-xl font-pixel text-gray-800 mb-4">
+							Tasks
+						</h2>
+						{/* 後續添加 TaskForm、FilterBar、TaskList */}
+					</div>
+				</PixelWindow>
+			</div>
+		</TodoProvider>
 	);
 }
 
