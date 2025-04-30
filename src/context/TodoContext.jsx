@@ -40,6 +40,15 @@ export const TodoProvider = ({ children }) => {
 		setTodos(todos.filter((todo) => todo.id !== id));
 	};
 
+    // 編輯待辦事項
+    const editTodo = (id, newText) => {
+		setTodos(
+			todos.map((todo) =>
+				todo.id === id ? { ...todo, text: newText } : todo
+			)
+		);
+	};
+
 	// 篩選和搜尋邏輯
 	const filteredTodos = todos
 		.filter((todo) => {
@@ -58,6 +67,7 @@ export const TodoProvider = ({ children }) => {
 				addTodo,
 				toggleTodo,
 				deleteTodo,
+				editTodo,
 				setFilter,
 				setSearch,
 			}}
