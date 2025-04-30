@@ -75,3 +75,23 @@
     color: #4b5eaa;
   }
 }
+
+/* 愛心動畫 */
+@keyframes heart {
+  0% {
+    transform: scale(1) translateY(0);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.5) translateY(-10px) rotate(5deg); /* 像素風抖動 */
+  }
+  100% {
+    transform: scale(1.2) translateY(-20px);
+    opacity: 0;
+  }
+}
+
+.animate-heart {
+  animation: heart 1s ease-out forwards;
+  image-rendering: pixelated; /* 確保 SVG 保持像素風 */
+}

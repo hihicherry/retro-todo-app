@@ -1,27 +1,46 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect, memo } from "react";
 import { useDrag, useDrop } from "react-dnd";
 import { TodoContext } from "../context/TodoContext";
+import HeartAnimation from "./HeartAnimation";
 
-function TaskItem({ todo }) {
-	const { toggleTodo, deleteTodo, editTodo, reorderTodo } = useContext(TodoContext);
-    const [isEditing, setIsEditing] = useState(false);
+function TaskItem({ todo, index }) {
+	const { toggleTodo, deleteTodo, editTodo, reorderTodo } =
+		useContext(TodoContext);
+	const [isEditing, setIsEditing] = useState(false);
 	const [editText, setEditText] = useState(todo.text);
+	const [showHeart, setShowHeart] = useState(false);
 
 	// 將類別轉換為中文
 	const getCategoryText = (category) => {
 		return category === "Work" ? "工作" : "個人";
 	};
 
-    // 提交編輯
-     const handleEditSubmit = (e) => {
-			e.preventDefault();
-			if (editText.trim()) {
-				editTodo(todo.id, editText);
-				setIsEditing(false);
-			}
-		};
+	// 提交編輯
+	const handleEditSubmit = (e) => {
+		e.preventDefault();
+		if (editText.trim()) {
+			editTodo(todo.id, editText);
+			setIsEditing(false);
+		}
+	};
 
-    const [{ isDragging }, drag] = useDrag({
+	// 切換完成狀態並觸發愛心動畫;
+	const handleToggle = () => {
+		toggleTodo(todo.id);
+		if (!todo.completed) {
+			setShowHeart(true); // 當任務從未完成變為完成時觸發
+		}
+	};
+
+	// 重置 showHeart 狀態以支援重複觸發
+	useEffect(() => {
+		if (showHeart) {
+			const timer = setTimeout(() => setShowHeart(false), 1000); // 動畫持續 1 秒後重置
+			return () => clearTimeout(timer);
+		}
+	}, [showHeart]);
+
+	const [{ isDragging }, drag] = useDrag({
 		type: "TASK",
 		item: { id: todo.id, index },
 		collect: (monitor) => ({
@@ -32,7 +51,8 @@ function TaskItem({ todo }) {
 	const [, drop] = useDrop({
 		accept: "TASK",
 		hover: (item) => {
-			if (item.index !== index) {
+			if (item.id !== todo.id) {
+				// 避免自己與自己交換
 				reorderTodo(item.index, index);
 				item.index = index; // 更新拖動項的索引
 			}
@@ -79,7 +99,7 @@ function TaskItem({ todo }) {
 					<input
 						type="checkbox"
 						checked={todo.completed}
-						onChange={() => toggleTodo(todo.id)}
+						onChange={handleToggle}
 						className="mr-2 accent-violet-300"
 						aria-label={`將 ${todo.text} 標記為 ${
 							todo.completed ? "未完成" : "已完成"
@@ -113,6 +133,7 @@ function TaskItem({ todo }) {
 					>
 						刪除
 					</button>
+					<HeartAnimation trigger={showHeart} />
 				</>
 			)}
 		</div>

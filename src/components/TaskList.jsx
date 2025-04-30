@@ -1,6 +1,5 @@
-import React, { useContext } from "react";
-import { useDrop, DndProvider } from "react-dnd";
-import { HTML5Backend } from "react-dnd-html5-backend";
+import React, { useContext, memo } from "react";
+import { useDrop } from "react-dnd";
 import { TodoContext } from "../context/TodoContext";
 import TaskItem from "./TaskItem";
 
@@ -9,17 +8,9 @@ function TaskList() {
 
     const [, drop] = useDrop({
 		accept: "TASK",
-		drop: (item, monitor) => {
-			const fromIndex = item.index;
-			const toIndex = todos.length - 1; // 默認放到最後
-			if (fromIndex !== toIndex) {
-				reorderTodo(fromIndex, toIndex);
-			}
-		},
 	});
 
 	return (
-		<DndProvider backend={HTML5Backend}>
 			<div
 				ref={drop}
 				className="max-h-64 overflow-y-auto custom-scrollbar"
@@ -34,8 +25,7 @@ function TaskList() {
 					))
 				)}
 			</div>
-		</DndProvider>
 	);
 }
 
-export default TaskList;
+export default memo(TaskList);
