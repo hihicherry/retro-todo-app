@@ -12,7 +12,7 @@
 @tailwind components;
 @tailwind utilities;
 
-
+/* 自訂scrollbar */
 .custom-scrollbar::-webkit-scrollbar {
   width: 8px;
 }
@@ -25,4 +25,53 @@
 .custom-scrollbar::-webkit-scrollbar-thumb {
   background: #ccb3f7;
   border: 2px solid #230f3d;
+}
+
+/* 自訂下拉選單 */
+.custom-select {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  position: relative;
+  background-color: #f3e8ff; /* 淺紫背景 */
+  border-radius: 4px; /* 微圓角，符合像素風 */
+  padding-right: 28px; /* 為箭頭留空間 */
+  transition: background-color 0.2s ease;
+  /* 自訂 SVG 箭頭 */
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%234B5EAA' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  background-size: 12px;
+}
+
+.custom-select:focus {
+  background-color: #ede9fe; /* 焦點時略深 */
+}
+
+/* 備用純 CSS 箭頭（若 SVG 失效） */
+.custom-select::after {
+  content: "▼";
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #4b5eaa;
+  pointer-events: none;
+  font-size: 10px;
+  display: none; /* 預設隱藏，僅 SVG 失效時啟用 */
+}
+
+/* 選項樣式 */
+.custom-select option {
+  font-family: "pixel", monospace;
+  color: #4b5eaa;
+  background: #f3e8ff;
+}
+
+/* Firefox 選項樣式 */
+@supports (-moz-appearance: none) {
+  .custom-select option {
+    font-family: "pixel", monospace;
+    color: #4b5eaa;
+  }
 }
