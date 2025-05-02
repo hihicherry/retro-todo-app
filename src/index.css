@@ -95,3 +95,22 @@
   animation: heart 1s ease-out forwards;
   image-rendering: pixelated; /* 確保 SVG 保持像素風 */
 }
+
+/* 像素風格：PixelWindow */
+.pixel-window {
+  border: 2px solid #4A2A4A;
+  box-shadow: 4px 4px 0 #4A2A4A;
+  position: relative;
+  overflow: hidden;
+  image-rendering: pixelated;
+}
+
+/* 標題欄 */
+.pixel-header {
+  border-bottom: 2px solid #4A2A4A;
+  padding: 2px;
+}
+
+
+
+
