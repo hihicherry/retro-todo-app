@@ -6,10 +6,10 @@ function PixelWindow({ title, children, progress = 0 }) {
 
 	return (
 		<div
-			className="pixel-window border-2 border-gray-800 bg-gradient-to-b from-[#C8A2C8] to-[#8A4F8A] shadow-[4px_4px_0_#4A2A4A] max-w-lg w-full relative"
+			className="pixel-window border-2 border-gray-800 shadow-[4px_4px_0_#4A2A4A] max-w-lg w-full relative"
 			style={{ fontFamily: "pixel, monospace" }}
 		>
-			<div className="pixel-header bg-gradient-to-r from-[#9B59B6] to-[#8E44AD] text-white py-1">
+			<div className="pixel-header text-white py-1">
 				<div className="bg-indigo-400 px-2 py-1 flex justify-between items-center">
 					<span className="font-pixel text-sm">{title}</span>
 					<div className="flex space-x-1">
@@ -74,7 +74,11 @@ function PixelWindow({ title, children, progress = 0 }) {
 					</div>
 				</div>
 			</div>
-			<div className={`p-2 bg-violet-100 ${isMinimized ? "hidden" : ""}`}>
+			<div
+				className={`p-2 bg-violet-100 ${
+					isMinimized ? "hidden" : ""
+				}`}
+			>
 				{progress > 0 && progress <= 100 && (
 					<div className="progress-bar mb-2">
 						<div
