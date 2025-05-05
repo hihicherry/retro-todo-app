@@ -69,7 +69,7 @@ function TaskItem({ todo, index }) {
 			{isEditing ? (
 				<form
 					onSubmit={handleEditSubmit}
-					className="flex-1 flex items-center"
+					className="flex-1 flex flex-col sm:flex-row sm:items-center w-full"
 				>
 					<input
 						type="text"
@@ -79,20 +79,22 @@ function TaskItem({ todo, index }) {
 						aria-label="編輯項目名稱"
 						title="編輯待辦事項"
 					/>
-					<button
-						type="submit"
-						className="bg-violet-300 text-white px-2 py-1 ml-2 font-pixel border-2 border-t-white border-l-white border-b-indigo-400 border-r-indigo-400"
-						title="儲存修改"
-					>
-						儲存
-					</button>
-					<button
-						onClick={() => setIsEditing(false)}
-						className="text-gray-500 px-2 py-1 ml-2 font-pixel"
-						title="取消編輯"
-					>
-						取消
-					</button>
+					<div className="flex sm:space-x-2 mt-2 sm:mt-0 w-full justify-start">
+						<button
+							type="submit"
+							className="bg-violet-300 text-white px-2 py-1 ml-2 font-pixel border-2 border-t-white border-l-white border-b-indigo-400 border-r-indigo-400 w-full sm:w-auto"
+							title="儲存修改"
+						>
+							儲存
+						</button>
+						<button
+							onClick={() => setIsEditing(false)}
+							className="text-gray-500 px-2 py-1 ml-2 font-pixel w-full sm:w-auto mt-2 sm:mt-0"
+							title="取消編輯"
+						>
+							取消
+						</button>
+					</div>
 				</form>
 			) : (
 				<>
