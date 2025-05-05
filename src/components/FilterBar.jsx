@@ -5,13 +5,13 @@ import { TodoContext } from "../context/TodoContext";
 function FilterBar() {
 	const { setFilter, setSearch } = useContext(TodoContext);
 
-    const filterOptions = [
+	const filterOptions = [
 		{ value: "all", label: "全部" },
 		{ value: "completed", label: "已完成" },
 		{ value: "active", label: "未完成" },
 	];
 
-    const customStyles = {
+	const customStyles = {
 		control: (provided) => ({
 			...provided,
 			backgroundColor: "#f3e8ff",
@@ -54,7 +54,7 @@ function FilterBar() {
 			},
 		}),
 	};
-
+	
 
 	return (
 		<div className="flex flex-col sm:flex-row sm:space-x-2 mb-4">
@@ -68,6 +68,7 @@ function FilterBar() {
 			/>
 			<Select
 				options={filterOptions}
+				defaultValue={filterOptions[0]} // 預設為「全部」
 				onChange={(selectedOption) =>
 					setFilter(selectedOption ? selectedOption.value : "all")
 				}

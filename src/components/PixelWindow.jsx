@@ -1,8 +1,29 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
-function PixelWindow({ title, children, progress = 0 }) {
-	const [isMinimized, setIsMinimized] = useState(false);
-	const handleMinimize = () => setIsMinimized(!isMinimized);
+function PixelWindow({ title, children, progress = 0,  autoProgress = false }) {
+	const [isMinimized, setIsMinimized] = useState(false);  //最小化管理  
+    const [dynamicProgress, setDynamicProgress] = useState(0);  //動態進度條管理
+
+    const handleMinimize = () => setIsMinimized(!isMinimized);
+
+    useEffect(() => {
+		let interval;
+		if (autoProgress && progress === 0) {
+			interval = setInterval(() => {
+				setDynamicProgress((prev) => {
+					if (prev >= 100) {
+						clearInterval(interval);
+						setTimeout(() => setDynamicProgress(0), 1000);
+						return 100;
+					}
+					return prev + 1;
+				});
+			}, 50);
+		} else {
+			setDynamicProgress(progress);
+		}
+		return () => clearInterval(interval);
+	}, [autoProgress, progress]);
 
 	return (
 		<div

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import { TodoProvider } from "./context/TodoContext";
@@ -9,6 +9,7 @@ import FilterBar from "./components/FilterBar";
 import "./index.css";
 
 function App() {
+
 	return (
 		<TodoProvider>
 			<DndProvider backend={HTML5Backend}>
