@@ -71,25 +71,35 @@ function TaskItem({ todo, index }) {
 					onSubmit={handleEditSubmit}
 					className="flex-1 flex flex-col sm:flex-row sm:items-center w-full"
 				>
-					<input
-						type="text"
-						value={editText}
-						onChange={(e) => setEditText(e.target.value)}
-						className="border-2 border-indigo-400 p-2 flex-1 font-pixel text-indigo-900 focus:outline-none focus:border-violet-300"
-						aria-label="編輯項目名稱"
-						title="編輯待辦事項"
-					/>
+					<div className="flex-1">
+						<label
+							htmlFor={`edit-input-${todo.id}`}
+							className="sr-only"
+						>
+							編輯 {todo.text}
+						</label>
+						<input
+							id={`edit-input-${todo.id}`}
+							type="text"
+							value={editText}
+							onChange={(e) => setEditText(e.target.value)}
+							className="border-2 border-indigo-400 p-2 flex-1 font-pixel text-indigo-900 focus:outline-none focus:border-violet-300 focus:ring-2 focus:ring-violet-300"
+							aria-label={`編輯 ${todo.text}`}
+							title="編輯待辦事項"
+						/>
+					</div>
+
 					<div className="flex sm:space-x-2 mt-2 sm:mt-0 w-full justify-start">
 						<button
 							type="submit"
-							className="bg-violet-300 text-white px-2 py-1 ml-2 font-pixel border-2 border-t-white border-l-white border-b-indigo-400 border-r-indigo-400 w-full sm:w-auto"
+							className="bg-violet-300 text-white px-2 py-1 ml-2 font-pixel border-2 border-t-white border-l-white border-b-indigo-400 border-r-indigo-400 w-full sm:w-auto hover:bg-violet-400 focus:ring-2 focus:ring-violet-300 focus:outline-none"
 							title="儲存修改"
 						>
 							儲存
 						</button>
 						<button
 							onClick={() => setIsEditing(false)}
-							className="text-gray-500 px-2 py-1 ml-2 font-pixel w-full sm:w-auto mt-2 sm:mt-0"
+							className="text-gray-500 px-2 py-1 ml-2 font-pixel w-full sm:w-auto mt-2 sm:mt-0 hover:text-gray-800 focus:ring-2 focus:ring-gray-300 focus:outline-none"
 							title="取消編輯"
 						>
 							取消
@@ -100,9 +110,10 @@ function TaskItem({ todo, index }) {
 				<>
 					<input
 						type="checkbox"
+						id={`todo-${todo.id}`}
 						checked={todo.completed}
 						onChange={handleToggle}
-						className="mr-2 accent-violet-300"
+						className="mr-2 accent-violet-300 focus:ring-2 focus:ring-violet-300"
 						aria-label={`將 ${todo.text} 標記為 ${
 							todo.completed ? "未完成" : "已完成"
 						}`}
@@ -110,7 +121,8 @@ function TaskItem({ todo, index }) {
 							todo.completed ? "未完成" : "已完成"
 						}`}
 					/>
-					<span
+					<label
+						htmlFor={`todo-${todo.id}`}
 						className={`flex-1 font-pixel ${
 							todo.completed
 								? "line-through text-indigo-500"
@@ -118,10 +130,10 @@ function TaskItem({ todo, index }) {
 						}`}
 					>
 						{todo.text} ({getCategoryText(todo.category)})
-					</span>
+					</label>
 					<button
 						onClick={() => setIsEditing(true)}
-						className="text-violet-500 font-pixel hover:text-violet-700 mr-2"
+						className="text-violet-500 font-pixel hover:text-violet-700 mr-2 focus:ring-2 focus:ring-violet-300 focus:outline-none"
 						aria-label={`編輯 ${todo.text}`}
 						title="編輯待辦事項"
 					>
@@ -129,7 +141,7 @@ function TaskItem({ todo, index }) {
 					</button>
 					<button
 						onClick={() => deleteTodo(todo.id)}
-						className="text-pink-500 font-pixel hover:text-pink-700"
+						className="text-pink-500 font-pixel hover:text-pink-700 focus:ring-2 focus:ring-pink-300 focus:outline-none"
 						aria-label={`刪除 ${todo.text}`}
 						title="刪除待辦事項"
 					>
@@ -142,4 +154,4 @@ function TaskItem({ todo, index }) {
 	);
 }
 
-export default memo(TaskItem);  //使用React.memo優化性能
+export default memo(TaskItem); //使用React.memo優化性能
