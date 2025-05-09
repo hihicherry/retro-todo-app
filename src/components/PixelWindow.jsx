@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
 
-function PixelWindow({ title, children, progress = 0,  autoProgress = false }) {
-	const [isMinimized, setIsMinimized] = useState(false);  //最小化管理  
-    const [dynamicProgress, setDynamicProgress] = useState(0);  //動態進度條管理
+function PixelWindow({ title, children, progress = 0, autoProgress = false }) {
+	const [isMinimized, setIsMinimized] = useState(false); //最小化管理
+	const [dynamicProgress, setDynamicProgress] = useState(0); //動態進度條管理
 
-    const handleMinimize = () => setIsMinimized(!isMinimized);
+	const handleMinimize = () => setIsMinimized(!isMinimized);
 
-    useEffect(() => {
+	useEffect(() => {
 		let interval;
 		if (autoProgress && progress === 0) {
 			interval = setInterval(() => {
@@ -29,15 +29,20 @@ function PixelWindow({ title, children, progress = 0,  autoProgress = false }) {
 		<div
 			className="pixel-window border-2 border-gray-800 shadow-[4px_4px_0_#4A2A4A] max-w-lg w-full relative"
 			style={{ fontFamily: "pixel, monospace" }}
+			role="dialog"
+			aria-labelledby="window-title"
 		>
 			<div className="pixel-header text-white py-1">
 				<div className="bg-indigo-400 px-2 py-1 flex justify-between items-center">
-					<span className="font-pixel text-sm">{title}</span>
+					<span id="window-title" className="font-pixel text-sm">
+						{title}
+					</span>
 					<div className="flex space-x-1">
 						<button
 							onClick={handleMinimize}
-							className="hover:scale-125 active:translate-x-1 active:translate-y-1"
-							title="最小化"
+							className="hover:scale-125 active:translate-x-1 active:translate-y-1 focus:ring-2 focus:ring-indigo-300 focus:outline-none"
+							aria-label="最小化視窗"
+							title="最小化視窗"
 						>
 							<svg
 								width="20"
@@ -55,8 +60,9 @@ function PixelWindow({ title, children, progress = 0,  autoProgress = false }) {
 							</svg>
 						</button>
 						<button
-							className="hover:scale-110 active:translate-x-1 active:translate-y-1"
-							title="最大化"
+							className="hover:scale-110 active:translate-x-1 active:translate-y-1 focus:ring-2 focus:ring-indigo-300 focus:outline-none"
+							aria-label="最大化視窗"
+							title="最大化視窗"
 						>
 							<svg
 								width="20"
@@ -74,8 +80,9 @@ function PixelWindow({ title, children, progress = 0,  autoProgress = false }) {
 							</svg>
 						</button>
 						<button
-							className="hover:scale-110 active:translate-x-1 active:translate-y-1"
-							titile="關閉"
+							className="hover:scale-110 active:translate-x-1 active:translate-y-1 focus:ring-2 focus:ring-indigo-300 focus:outline-none"
+							aria-label="關閉視窗"
+							titile="關閉視窗"
 						>
 							<svg
 								width="20"
@@ -95,11 +102,7 @@ function PixelWindow({ title, children, progress = 0,  autoProgress = false }) {
 					</div>
 				</div>
 			</div>
-			<div
-				className={`p-2 bg-violet-100 ${
-					isMinimized ? "hidden" : ""
-				}`}
-			>
+			<div className={`p-2 bg-violet-100 ${isMinimized ? "hidden" : ""}`}>
 				{progress > 0 && progress <= 100 && (
 					<div className="progress-bar mb-2">
 						<div
