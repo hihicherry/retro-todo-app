@@ -14,47 +14,49 @@ function FilterBar() {
 	const customStyles = {
 		control: (provided) => ({
 			...provided,
-			backgroundColor: "#f3e8ff", // 淺紫色背景
-			border: "2px solid #818cf8", // 藍色邊框
+			backgroundColor: "var(--theme-secondary)",
+			border: "2px solid var(--theme-accent)",
 			borderRadius: 0,
 			padding: "2px 8px",
 			fontFamily: "pixel, monospace",
-			color: "#1E3A8A", // 深藍色文字，提升對比度
+			color: "var(--theme-dark)",
 			boxShadow: "none",
 			"&:hover": {
-				borderColor: "#c4b5fd",
+				borderColor: "var(--theme-accent)",
 			},
 			"&:focus-within": {
-				borderColor: "#6D28D9", // 聚焦時紫色邊框
-				boxShadow: "0 0 0 3px rgba(109, 40, 217, 0.3)", // 聚焦光暈
+				borderColor: "var(--theme-accent)",
+				boxShadow: "0 0 0 3px rgba(109, 40, 217, 0.3)",
 			},
 		}),
 		menu: (provided) => ({
 			...provided,
-			backgroundColor: "#f3e8ff",
-			border: "2px solid #818cf8",
+			backgroundColor: "var(--theme-secondary)",
+			border: "2px solid var(--theme-accent)",
 			borderRadius: 0,
 			fontFamily: "pixel, monospace",
-			color: "#1E3A8A",
+			color: "var(--theme-dark)",
 		}),
 		option: (provided, state) => ({
 			...provided,
-			backgroundColor: state.isSelected ? "#D2B4DE" : "#f3e8ff", // 選擇時紫色背景
-			color: "#1E3A8A",
+			backgroundColor: state.isSelected
+				? "var(--theme-primary)"
+				: "var(--theme-secondary)",
+			color: "var(--theme-dark)",
 			"&:hover": {
-				backgroundColor: "#D2B4DE",
+				backgroundColor: "var(--theme-primary)",
 			},
 		}),
 		singleValue: (provided) => ({
 			...provided,
-			color: "#4B5EAA",
+			color: "var(--theme-dark)",
 		}),
 		indicatorSeparator: () => ({ display: "none" }),
 		dropdownIndicator: (provided) => ({
 			...provided,
-			color: "#4B5EAA",
+			color: "var(--theme-dark)",
 			"&:hover": {
-				color: "#6D28D9",
+				color: "var(--theme-accent)",
 			},
 		}),
 	};
@@ -70,7 +72,7 @@ function FilterBar() {
 					type="text"
 					placeholder="搜尋項目..."
 					onChange={(e) => setSearch(e.target.value)}
-					className="border-2 border-indigo-400 p-2 w-full font-pixel text-indigo-900 focus:outline-none focus:border-violet-500 focus:ring-2 focus:ring-violet-300 hover:border-violet-300 mb-2 sm:mb-0"
+					className="border-2 border-[var(--theme-accent)] p-2 w-full font-pixel focus:outline-none focus:border-[var(--theme-accent)] focus:ring-2 focus:ring-[var(--theme-accent)] hover:border-[var(--theme-accent)] mb-2 sm:mb-0"
 					aria-label="搜尋待辦事項"
 					title="輸入關鍵字搜尋待辦事項"
 				/>
@@ -91,7 +93,6 @@ function FilterBar() {
 					aria-label="篩選待辦事項"
 					aria-describedby="filter-description"
 					title="選擇篩選條件"
-					menuPortalTarget={document.body}
 					menuPlacement="auto"
 				/>
 				<span id="filter-description" className="sr-only">

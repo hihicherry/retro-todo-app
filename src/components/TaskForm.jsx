@@ -23,43 +23,49 @@ function TaskForm() {
 	const customStyles = {
 		control: (provided) => ({
 			...provided,
-			backgroundColor: "#f3e8ff",
-			border: "2px solid #818cf8",
+			backgroundColor: "var(--theme-secondary)",
+			border: "2px solid var(--theme-accent)",
 			borderRadius: 0,
 			padding: "2px 8px",
 			fontFamily: "pixel, monospace",
-			color: "#4B5EAA",
+			color: "var(--theme-dark)",
 			boxShadow: "none",
 			"&:hover": {
-				borderColor: "#c4b5fd",
+				borderColor: "var(--theme-accent)",
+			},
+			"&:focus-within": {
+				borderColor: "var(--theme-accent)",
+				boxShadow: "0 0 0 3px rgba(109, 40, 217, 0.3)",
 			},
 		}),
 		menu: (provided) => ({
 			...provided,
-			backgroundColor: "#f3e8ff",
-			border: "2px solid #818cf8",
+			backgroundColor: "var(--theme-secondary)",
+			border: "2px solid var(--theme-accent)",
 			borderRadius: 0,
 			fontFamily: "pixel, monospace",
-			color: "#4B5EAA",
+			color: "var(--theme-dark)",
 		}),
 		option: (provided, state) => ({
 			...provided,
-			backgroundColor: state.isSelected ? "#D2B4DE" : "#f3e8ff",
-			color: "#4B5EAA",
+			backgroundColor: state.isSelected
+				? "var(--theme-primary)"
+				: "var(--theme-secondary)",
+			color: "var(--theme-dark)",
 			"&:hover": {
-				backgroundColor: "#D2B4DE",
+				backgroundColor: "var(--theme-primary)",
 			},
 		}),
 		singleValue: (provided) => ({
 			...provided,
-			color: "#4B5EAA",
+			color: "var(--theme-dark)",
 		}),
 		indicatorSeparator: () => ({ display: "none" }),
 		dropdownIndicator: (provided) => ({
 			...provided,
-			color: "#4B5EAA",
+			color: "var(--theme-dark)",
 			"&:hover": {
-				color: "#6D28D9",
+				color: "var(--theme-accent)",
 			},
 		}),
 	};
@@ -71,7 +77,7 @@ function TaskForm() {
 				value={text}
 				onChange={(e) => setText(e.target.value)}
 				placeholder="新增項目"
-				className="border-2 border-indigo-400 p-2 w-full mb-2 font-pixel text-indigo-900 focus:outline-none focus:border-violet-300 hover:border-violet-300"
+				className="border-2 border-[var(--theme-accent)] p-2 w-full mb-2 font-pixel text-[var(--theme-accent)] focus:outline-none focus:border-[var(--theme-accent)] focus:ring-2 focus:ring-[var(--theme-accent)] hover:border-[var(--theme-accent)]"
 				aria-label="項目名稱"
 				title="輸入待辦事項名稱"
 			/>
@@ -90,7 +96,7 @@ function TaskForm() {
 			/>
 			<button
 				type="submit"
-				className="bg-violet-300 text-white px-2 py-2 border-2 border-t-white border-l-white border-b-indigo-400 border-r-indigo-400 shadow-[4px_4px_0_0_rgba(0,0,0,0.2)] hover:shadow-none transition-all font-pixel"
+				className="bg-[var(--theme-accent)] text-white px-2 py-2 border-2 border-t-white border-l-white border-b-[var(--theme-accent)] border-r-[var(--theme-accent)] shadow-[4px_4px_0_0_rgba(0,0,0,0.2)] hover:shadow-none hover:bg-[var(--theme-secondary)] transition-all font-pixel"
 				title="新增待辦事項"
 			>
 				新增待辦事項

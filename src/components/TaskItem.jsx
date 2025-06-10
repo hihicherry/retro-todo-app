@@ -62,7 +62,7 @@ function TaskItem({ todo, index }) {
 	return (
 		<div
 			ref={(node) => drag(drop(node))}
-			className={`flex items-center p-2 border-b-2 border-indigo-900 ${
+			className={`flex items-center p-2 border-b-2 border-[var(--theme-accent)] ${
 				isDragging ? "opacity-50" : ""
 			}`}
 		>
@@ -83,7 +83,7 @@ function TaskItem({ todo, index }) {
 							type="text"
 							value={editText}
 							onChange={(e) => setEditText(e.target.value)}
-							className="border-2 border-indigo-400 p-2 flex-1 font-pixel text-indigo-900 focus:outline-none focus:border-violet-300 focus:ring-2 focus:ring-violet-300"
+							className="border-2 border-[var(--theme-accent) p-2 flex-1 font-pixel text-[var(--theme-accent)] focus:outline-none focus:border-[var(--theme-accent)] focus:ring-2 focus:ring-[var(--theme-accent)]"
 							aria-label={`編輯 ${todo.text}`}
 							title="編輯待辦事項"
 						/>
@@ -92,7 +92,7 @@ function TaskItem({ todo, index }) {
 					<div className="flex sm:space-x-2 mt-2 sm:mt-0 w-full justify-start">
 						<button
 							type="submit"
-							className="bg-violet-300 text-white px-2 py-1 ml-2 font-pixel border-2 border-t-white border-l-white border-b-indigo-400 border-r-indigo-400 w-full sm:w-auto hover:bg-violet-400 focus:ring-2 focus:ring-violet-300 focus:outline-none"
+							className="bg-[var(--theme-accent)] text-white px-2 py-1 ml-2 font-pixel border-2 border-t-white border-l-white border-b-[var(--theme-accent)] border-r-[var(--theme-accent)] w-full sm:w-auto hover:bg-[var(--theme-secondary)] focus:ring-2 focus:ring-[var(--theme-accent)] focus:outline-none"
 							title="儲存修改"
 						>
 							儲存
@@ -113,7 +113,7 @@ function TaskItem({ todo, index }) {
 						id={`todo-${todo.id}`}
 						checked={todo.completed}
 						onChange={handleToggle}
-						className="mr-2 accent-violet-300 focus:ring-2 focus:ring-violet-300"
+						className="mr-2 accent-[var(--theme-accent)] focus:ring-2 focus:ring-[var(--theme-accent)]"
 						aria-label={`將 ${todo.text} 標記為 ${
 							todo.completed ? "未完成" : "已完成"
 						}`}
@@ -125,15 +125,15 @@ function TaskItem({ todo, index }) {
 						htmlFor={`todo-${todo.id}`}
 						className={`flex-1 font-pixel ${
 							todo.completed
-								? "line-through text-indigo-500"
-								: "text-indigo-900"
+								? "line-through text-[var(--theme-done)]"
+								: "text-[var(--theme-accent)]"
 						}`}
 					>
 						{todo.text} ({getCategoryText(todo.category)})
 					</label>
 					<button
 						onClick={() => setIsEditing(true)}
-						className="text-violet-500 font-pixel hover:text-violet-700 mr-2 focus:ring-2 focus:ring-violet-300 focus:outline-none"
+						className="text-[var(--theme-accent)] font-pixel hover:text-[var(--theme-secondary) mr-2 focus:ring-2 focus:ring-[var(--theme-accent)] focus:outline-none"
 						aria-label={`編輯 ${todo.text}`}
 						title="編輯待辦事項"
 					>
@@ -141,7 +141,7 @@ function TaskItem({ todo, index }) {
 					</button>
 					<button
 						onClick={() => deleteTodo(todo.id)}
-						className="text-pink-500 font-pixel hover:text-pink-700 focus:ring-2 focus:ring-pink-300 focus:outline-none"
+						className="text-pink-400 font-pixel hover:text-pink-600 focus:ring-2 focus:ring-[var(--theme-accent)] focus:outline-none"
 						aria-label={`刪除 ${todo.text}`}
 						title="刪除待辦事項"
 					>

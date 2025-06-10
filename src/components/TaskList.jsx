@@ -18,7 +18,7 @@ function TaskList() {
 			aria-label="待辦事項列表"
 		>
 			{todos.length === 0 ? (
-				<p className="text-gray-600 font-pixel text-center">
+				<p className="text-[var(--theme-secondary)] font-pixel text-center">
 					尚未新增待辦事項！
 				</p>
 			) : (
