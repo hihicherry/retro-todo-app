@@ -2,6 +2,7 @@ import React, { useContext, useState, useEffect, memo } from "react";
 import { useDrag, useDrop } from "react-dnd";
 import { TodoContext } from "../context/TodoContext";
 import HeartAnimation from "./HeartAnimation";
+import { FaGripVertical } from "react-icons/fa"; //react-icons 的拖曳圖標
 
 function TaskItem({ todo, index }) {
 	const { toggleTodo, deleteTodo, editTodo, reorderTodo } =
@@ -108,6 +109,14 @@ function TaskItem({ todo, index }) {
 				</form>
 			) : (
 				<>
+					<div
+						ref={drag} //將拖曳功能綁定到圖標
+						className="cursor-move mr-2 text-[var(--theme-accent)] hover:text-[var(--theme-secondary)] transition-colors"
+						aria-label="拖曳以重新排序"
+						title="拖曳以重新排序"
+					>
+						<FaGripVertical size={10} />
+					</div>
 					<input
 						type="checkbox"
 						id={`todo-${todo.id}`}
@@ -133,7 +142,7 @@ function TaskItem({ todo, index }) {
 					</label>
 					<button
 						onClick={() => setIsEditing(true)}
-						className="text-[var(--theme-accent)] font-pixel hover:text-[var(--theme-secondary) mr-2 focus:ring-2 focus:ring-[var(--theme-accent)] focus:outline-none"
+						className="text-[var(--theme-accent)] font-pixel hover:text-[var(--theme-done)] mr-2 focus:ring-2 focus:ring-[var(--theme-secondary)] focus:outline-none"
 						aria-label={`編輯 ${todo.text}`}
 						title="編輯待辦事項"
 					>
