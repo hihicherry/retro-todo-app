@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect, memo } from "react";
+import React, { useContext, useState, useEffect, memo, useMemo } from "react";
 import { useDrag, useDrop } from "react-dnd";
 import { TodoContext } from "../context/TodoContext";
 import HeartAnimation from "./HeartAnimation";
@@ -69,7 +69,7 @@ function TaskItem({ todo, index }) {
 	const [, drop] = useDrop({
 		accept: "TASK",
 		hover: (item) => {
-			if (item.id !== todo.id && !sortByPriorit) {
+			if (item.id !== todo.id && !sortByPriority) {
 				// 避免自己與自己交換
 				reorderTodo(item.index, index);
 				item.index = index; // 更新拖動項的索引
@@ -77,61 +77,67 @@ function TaskItem({ todo, index }) {
 		},
 	});
 
-	const priorityOptions = [
-		{ value: "highest", label: "十萬火急！⏰" },
-		{ value: "urgent", label: "等一下再說～🙆" },
-		{ value: "minor", label: "慢慢來💤" },
-	];
+	const priorityOptions = useMemo(
+		() => [
+			{ value: "highest", label: "十萬火急！⏰" },
+			{ value: "urgent", label: "等一下再說～🙆" },
+			{ value: "minor", label: "慢慢來💤" },
+		],
+		[]
+	);
 
-	const customStyles = {
-		control: (provided) => ({
-			...provided,
-			backgroundColor: "var(--theme-secondary)",
-			border: "2px solid var(--theme-accent)",
-			borderRadius: 0,
-			padding: "2px 8px",
-			fontFamily: "pixel, monospace",
-			color: "var(--theme-dark)",
-			boxShadow: "none",
-			"&:hover": {
-				borderColor: "var(--theme-accent)",
-			},
-			"&:focus-within": {
-				borderColor: "var(--theme-accent)",
-				boxShadow: "0 0 0 3px rgba(109, 40, 217, 0.3)",
-			},
+	const customStyles = useMemo(
+		() => ({
+			control: (provided) => ({
+				...provided,
+				backgroundColor: "var(--theme-secondary)",
+				border: "2px solid var(--theme-accent)",
+				borderRadius: 0,
+				padding: "2px 8px",
+				fontFamily: "pixel, monospace",
+				color: "var(--theme-dark)",
+				boxShadow: "none",
+				"&:hover": {
+					borderColor: "var(--theme-accent)",
+				},
+				"&:focus-within": {
+					borderColor: "var(--theme-accent)",
+					boxShadow: "0 0 0 3px rgba(109, 40, 217, 0.3)",
+				},
+			}),
+			menu: (provided) => ({
+				...provided,
+				backgroundColor: "var(--theme-secondary)",
+				border: "2px solid var(--theme-accent)",
+				borderRadius: 0,
+				fontFamily: "pixel, monospace",
+				color: "var(--theme-dark)",
+			}),
+			option: (provided, state) => ({
+				...provided,
+				backgroundColor: state.isSelected
+					? "var(--theme-primary)"
+					: "var(--theme-secondary)",
+				color: "var(--theme-dark)",
+				"&:hover": {
+					backgroundColor: "var(--theme-primary)",
+				},
+			}),
+			singleValue: (provided) => ({
+				...provided,
+				color: "var(--theme-dark)",
+			}),
+			indicatorSeparator: () => ({ display: "none" }),
+			dropdownIndicator: (provided) => ({
+				...provided,
+				color: "var(--theme-dark)",
+				"&:hover": {
+					color: "var(--theme-accent)",
+				},
+			}),
 		}),
-		menu: (provided) => ({
-			...provided,
-			backgroundColor: "var(--theme-secondary)",
-			border: "2px solid var(--theme-accent)",
-			borderRadius: 0,
-			fontFamily: "pixel, monospace",
-			color: "var(--theme-dark)",
-		}),
-		option: (provided, state) => ({
-			...provided,
-			backgroundColor: state.isSelected
-				? "var(--theme-primary)"
-				: "var(--theme-secondary)",
-			color: "var(--theme-dark)",
-			"&:hover": {
-				backgroundColor: "var(--theme-primary)",
-			},
-		}),
-		singleValue: (provided) => ({
-			...provided,
-			color: "var(--theme-dark)",
-		}),
-		indicatorSeparator: () => ({ display: "none" }),
-		dropdownIndicator: (provided) => ({
-			...provided,
-			color: "var(--theme-dark)",
-			"&:hover": {
-				color: "var(--theme-accent)",
-			},
-		}),
-	};
+		[]
+	);
 
 	return (
 		<div
@@ -177,6 +183,7 @@ function TaskItem({ todo, index }) {
 							className="mt-2 sm:mt-0 sm:ml-2"
 							aria-label="選擇優先順序"
 							title="選擇優先順序"
+							onMenuOpen={() => {}}
 						/>
 					</div>
 
@@ -201,7 +208,9 @@ function TaskItem({ todo, index }) {
 				<>
 					<div
 						ref={drag} //將拖曳功能綁定到圖標
-						className="cursor-move mr-2 text-[var(--theme-accent)] hover:text-[var(--theme-secondary)] transition-colors"
+						className={`cursor-move mr-2 text-[var(--theme-accent)] hover:text-[var(--theme-secondary)] transition-all ${
+							isDragging ? "scale-125" : ""
+						} ${sortByPriority ? "opacity-0" : ""}`}
 						aria-label="拖曳以重新排序"
 						title="拖曳以重新排序"
 					>

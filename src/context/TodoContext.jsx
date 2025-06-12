@@ -1,4 +1,4 @@
-import React, { createContext, useState, useEffect } from "react";
+import React, { createContext, useState, useEffect, useMemo } from "react";
 
 export const TodoContext = createContext();
 
@@ -68,24 +68,32 @@ export const TodoProvider = ({ children }) => {
 	};
 
 	// 篩選和搜尋邏輯
-	const filteredTodos = todos
-		.filter((todo) => {
-			if (filter === "completed") return todo.completed;
-			if (filter === "active") return !todo.completed;
-			if (filter === "highest") return todo.priority === "highest";
-			if (filter === "urgent") return todo.priority === "urgent";
-			if (filter === "minor") return todo.priority === "minor";
-			return true;
-		})
-		.filter((todo) =>
-			todo.text.toLowerCase().includes(search.toLowerCase())
-		)
-		.sort((a, b) => {
-			if (sortByPriority) {
-				return priorityOrder[b.priority] - priorityOrder[a.priority];
-			}
-			return 0;
-		});
+	const filteredTodos = useMemo(
+		() =>
+			todos
+				.filter((todo) => {
+					if (filter === "completed") return todo.completed;
+					if (filter === "active") return !todo.completed;
+					if (filter === "highest")
+						return todo.priority === "highest";
+					if (filter === "urgent") return todo.priority === "urgent";
+					if (filter === "minor") return todo.priority === "minor";
+					return true;
+				})
+				.filter((todo) =>
+					todo.text.toLowerCase().includes(search.toLowerCase())
+				)
+				.sort((a, b) => {
+					if (sortByPriority) {
+						return (
+							priorityOrder[b.priority] -
+							priorityOrder[a.priority]
+						);
+					}
+					return 0;
+				}),
+		[todos, filter, search, sortByPriority]
+	);
 
 	return (
 		<TodoContext.Provider

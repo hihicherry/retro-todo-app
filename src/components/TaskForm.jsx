@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useMemo } from "react";
 import Select from "react-select";
 import { TodoContext } from "../context/TodoContext";
 
@@ -18,66 +18,75 @@ function TaskForm() {
 		}
 	};
 
-	const categoryOptions = [
-		{ value: "Work", label: "工作" },
-		{ value: "Personal", label: "個人" },
-	];
+	const categoryOptions = useMemo(
+		() => [
+			{ value: "Work", label: "工作" },
+			{ value: "Personal", label: "個人" },
+		],
+		[]
+	);
 
-	const priorityOptions = [
-		{ value: "highest", label: "十萬火急！⏰" },
-		{ value: "urgent", label: "等一下再說～🙆" },
-		{ value: "minor", label: "慢慢來💤" },
-	];
+	const priorityOptions = useMemo(
+		() => [
+			{ value: "highest", label: "十萬火急！⏰" },
+			{ value: "urgent", label: "等一下再說～🙆" },
+			{ value: "minor", label: "慢慢來💤" },
+		],
+		[]
+	);
 
-	const customStyles = {
-		control: (provided) => ({
-			...provided,
-			backgroundColor: "var(--theme-secondary)",
-			border: "2px solid var(--theme-accent)",
-			borderRadius: 0,
-			padding: "2px 8px",
-			fontFamily: "pixel, monospace",
-			color: "var(--theme-dark)",
-			boxShadow: "none",
-			"&:hover": {
-				borderColor: "var(--theme-accent)",
-			},
-			"&:focus-within": {
-				borderColor: "var(--theme-accent)",
-				boxShadow: "0 0 0 3px rgba(109, 40, 217, 0.3)",
-			},
+	const customStyles = useMemo(
+		() => ({
+			control: (provided) => ({
+				...provided,
+				backgroundColor: "var(--theme-secondary)",
+				border: "2px solid var(--theme-accent)",
+				borderRadius: 0,
+				padding: "2px 8px",
+				fontFamily: "pixel, monospace",
+				color: "var(--theme-dark)",
+				boxShadow: "none",
+				"&:hover": {
+					borderColor: "var(--theme-accent)",
+				},
+				"&:focus-within": {
+					borderColor: "var(--theme-accent)",
+					boxShadow: "0 0 0 3px rgba(109, 40, 217, 0.3)",
+				},
+			}),
+			menu: (provided) => ({
+				...provided,
+				backgroundColor: "var(--theme-secondary)",
+				border: "2px solid var(--theme-accent)",
+				borderRadius: 0,
+				fontFamily: "pixel, monospace",
+				color: "var(--theme-dark)",
+			}),
+			option: (provided, state) => ({
+				...provided,
+				backgroundColor: state.isSelected
+					? "var(--theme-primary)"
+					: "var(--theme-secondary)",
+				color: "var(--theme-dark)",
+				"&:hover": {
+					backgroundColor: "var(--theme-primary)",
+				},
+			}),
+			singleValue: (provided) => ({
+				...provided,
+				color: "var(--theme-dark)",
+			}),
+			indicatorSeparator: () => ({ display: "none" }),
+			dropdownIndicator: (provided) => ({
+				...provided,
+				color: "var(--theme-dark)",
+				"&:hover": {
+					color: "var(--theme-accent)",
+				},
+			}),
 		}),
-		menu: (provided) => ({
-			...provided,
-			backgroundColor: "var(--theme-secondary)",
-			border: "2px solid var(--theme-accent)",
-			borderRadius: 0,
-			fontFamily: "pixel, monospace",
-			color: "var(--theme-dark)",
-		}),
-		option: (provided, state) => ({
-			...provided,
-			backgroundColor: state.isSelected
-				? "var(--theme-primary)"
-				: "var(--theme-secondary)",
-			color: "var(--theme-dark)",
-			"&:hover": {
-				backgroundColor: "var(--theme-primary)",
-			},
-		}),
-		singleValue: (provided) => ({
-			...provided,
-			color: "var(--theme-dark)",
-		}),
-		indicatorSeparator: () => ({ display: "none" }),
-		dropdownIndicator: (provided) => ({
-			...provided,
-			color: "var(--theme-dark)",
-			"&:hover": {
-				color: "var(--theme-accent)",
-			},
-		}),
-	};
+		[]
+	);
 
 	return (
 		<form onSubmit={handleSubmit} className="mb-4">
@@ -96,12 +105,13 @@ function TaskForm() {
 					(option) => option.value === category
 				)}
 				onChange={(selectedOption) =>
-					setCategory(selectedOption ? selectedOption.value : "")
+					setCategory(selectedOption ? selectedOption.value : "Work")
 				}
 				styles={customStyles}
 				className="w-full mb-2"
 				aria-label="項目類別"
 				title="選擇待辦事項類別"
+				onMenuOpen={() => {}}
 			/>
 			<Select
 				options={priorityOptions}
@@ -115,6 +125,7 @@ function TaskForm() {
 				className="w-full mb-2"
 				aria-label="優先順序"
 				title="選擇優先順序"
+				onMenuOpen={() => {}}
 			/>
 			<button
 				type="submit"
