@@ -54,17 +54,40 @@ export const TodoProvider = ({ children }) => {
 
 	// 處理項目排序
 	const reorderTodo = (fromIndex, toIndex) => {
+		const filteredTodos = todos
+			.filter((todo) => {
+				if (filter === "completed") return todo.completed;
+				if (filter === "active") return !todo.completed;
+				if (filter === "highest") return todo.priority === "highest";
+				if (filter === "urgent") return todo.priority === "urgent";
+				if (filter === "minor") return todo.priority === "minor";
+				return true;
+			})
+			.filter((todo) =>
+				todo.text.toLowerCase().includes(search.toLowerCase())
+			);
+
 		const updatedTodos = [...todos];
-		const [movedTodo] = updatedTodos.splice(fromIndex, 1);
-		updatedTodos.splice(toIndex, 0, movedTodo);
+		const fromTodo = filteredTodos[fromIndex];
+		const toTodo = filteredTodos[toIndex];
+
+		const fromOriginalIndex = todos.findIndex(
+			(todo) => todo.id === fromTodo.id
+		);
+		const toOriginalIndex = todos.findIndex(
+			(todo) => todo.id === toTodo.id
+		);
+
+		const [movedTodo] = updatedTodos.splice(fromOriginalIndex, 1);
+		updatedTodos.splice(toOriginalIndex, 0, movedTodo);
 		setTodos(updatedTodos);
 	};
 
 	// 定義優先順序權重
 	const priorityOrder = {
-		highest: 3,
+		highest: 1,
 		urgent: 2,
-		minor: 1,
+		minor: 3,
 	};
 
 	// 篩選和搜尋邏輯
@@ -85,10 +108,12 @@ export const TodoProvider = ({ children }) => {
 				)
 				.sort((a, b) => {
 					if (sortByPriority) {
-						return (
-							priorityOrder[b.priority] -
-							priorityOrder[a.priority]
-						);
+						const priorityDiff =
+							priorityOrder[a.priority] -
+							priorityOrder[b.priority];
+						return priorityDiff !== 0
+							? priorityDiff
+							: todos.indexOf(a) - todos.indexOf(b);
 					}
 					return 0;
 				}),

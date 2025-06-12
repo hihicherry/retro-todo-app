@@ -207,7 +207,7 @@ function TaskItem({ todo, index }) {
 			) : (
 				<>
 					<div
-						ref={drag} //將拖曳功能綁定到圖標
+						ref={sortByPriority ? null : drag} //將拖曳功能綁定到圖標
 						className={`cursor-move mr-2 text-[var(--theme-accent)] hover:text-[var(--theme-secondary)] transition-all ${
 							isDragging ? "scale-125" : ""
 						} ${sortByPriority ? "opacity-0" : ""}`}
