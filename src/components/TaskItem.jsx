@@ -3,12 +3,14 @@ import { useDrag, useDrop } from "react-dnd";
 import { TodoContext } from "../context/TodoContext";
 import HeartAnimation from "./HeartAnimation";
 import { FaGripVertical } from "react-icons/fa"; //react-icons 的拖曳圖標
+import Select from "react-select";
 
 function TaskItem({ todo, index }) {
-	const { toggleTodo, deleteTodo, editTodo, reorderTodo } =
+	const { toggleTodo, deleteTodo, editTodo, reorderTodo, sortByPriority } =
 		useContext(TodoContext);
 	const [isEditing, setIsEditing] = useState(false);
 	const [editText, setEditText] = useState(todo.text);
+	const [editPriority, setEditPriority] = useState(todo.priority || "minor");
 	const [showHeart, setShowHeart] = useState(false);
 
 	// 將類別轉換為中文
@@ -16,11 +18,25 @@ function TaskItem({ todo, index }) {
 		return category === "Work" ? "工作" : "個人";
 	};
 
+	// 將優先順序轉換為中文
+	const getPriorityText = (priority) => {
+		switch (priority) {
+			case "highest":
+				return "十萬火急！⏰";
+			case "urgent":
+				return "等一下再說～🙆";
+			case "minor":
+				return "慢慢來💤";
+			default:
+				return "慢慢來💤";
+		}
+	};
+
 	// 提交編輯
 	const handleEditSubmit = (e) => {
 		e.preventDefault();
 		if (editText.trim()) {
-			editTodo(todo.id, editText);
+			editTodo(todo.id, editText, editPriority);
 			setIsEditing(false);
 		}
 	};
@@ -47,12 +63,13 @@ function TaskItem({ todo, index }) {
 		collect: (monitor) => ({
 			isDragging: monitor.isDragging(),
 		}),
+		canDrag: !sortByPriority,
 	});
 
 	const [, drop] = useDrop({
 		accept: "TASK",
 		hover: (item) => {
-			if (item.id !== todo.id) {
+			if (item.id !== todo.id && !sortByPriorit) {
 				// 避免自己與自己交換
 				reorderTodo(item.index, index);
 				item.index = index; // 更新拖動項的索引
@@ -60,9 +77,65 @@ function TaskItem({ todo, index }) {
 		},
 	});
 
+	const priorityOptions = [
+		{ value: "highest", label: "十萬火急！⏰" },
+		{ value: "urgent", label: "等一下再說～🙆" },
+		{ value: "minor", label: "慢慢來💤" },
+	];
+
+	const customStyles = {
+		control: (provided) => ({
+			...provided,
+			backgroundColor: "var(--theme-secondary)",
+			border: "2px solid var(--theme-accent)",
+			borderRadius: 0,
+			padding: "2px 8px",
+			fontFamily: "pixel, monospace",
+			color: "var(--theme-dark)",
+			boxShadow: "none",
+			"&:hover": {
+				borderColor: "var(--theme-accent)",
+			},
+			"&:focus-within": {
+				borderColor: "var(--theme-accent)",
+				boxShadow: "0 0 0 3px rgba(109, 40, 217, 0.3)",
+			},
+		}),
+		menu: (provided) => ({
+			...provided,
+			backgroundColor: "var(--theme-secondary)",
+			border: "2px solid var(--theme-accent)",
+			borderRadius: 0,
+			fontFamily: "pixel, monospace",
+			color: "var(--theme-dark)",
+		}),
+		option: (provided, state) => ({
+			...provided,
+			backgroundColor: state.isSelected
+				? "var(--theme-primary)"
+				: "var(--theme-secondary)",
+			color: "var(--theme-dark)",
+			"&:hover": {
+				backgroundColor: "var(--theme-primary)",
+			},
+		}),
+		singleValue: (provided) => ({
+			...provided,
+			color: "var(--theme-dark)",
+		}),
+		indicatorSeparator: () => ({ display: "none" }),
+		dropdownIndicator: (provided) => ({
+			...provided,
+			color: "var(--theme-dark)",
+			"&:hover": {
+				color: "var(--theme-accent)",
+			},
+		}),
+	};
+
 	return (
 		<div
-			ref={(node) => drag(drop(node))}
+			ref={(node) => (sortByPriority ? null : drag(drop(node)))}
 			className={`flex items-center p-2 border-b-2 border-[var(--theme-accent)] ${
 				isDragging ? "opacity-50" : ""
 			}`}
@@ -87,6 +160,23 @@ function TaskItem({ todo, index }) {
 							className="border-2 border-[var(--theme-accent) p-2 flex-1 font-pixel text-[var(--theme-accent)] focus:outline-none focus:border-[var(--theme-accent)] focus:ring-2 focus:ring-[var(--theme-accent)]"
 							aria-label={`編輯 ${todo.text}`}
 							title="編輯待辦事項"
+						/>
+						<Select
+							options={priorityOptions}
+							value={priorityOptions.find(
+								(option) => option.value === editPriority
+							)}
+							onChange={(selectedOption) =>
+								setEditPriority(
+									selectedOption
+										? selectedOption.value
+										: "minor"
+								)
+							}
+							styles={customStyles}
+							className="mt-2 sm:mt-0 sm:ml-2"
+							aria-label="選擇優先順序"
+							title="選擇優先順序"
 						/>
 					</div>
 
@@ -138,7 +228,19 @@ function TaskItem({ todo, index }) {
 								: "text-[var(--theme-accent)]"
 						}`}
 					>
-						{todo.text} ({getCategoryText(todo.category)})
+						{todo.text} ({getCategoryText(todo.category)}) [
+						<span
+							className={
+								todo.priority === "highest"
+									? "text-red-600"
+									: todo.priority === "urgent"
+									? "text-orange-600"
+									: "text-green-600"
+							}
+						>
+							{getPriorityText(todo.priority)}
+						</span>
+						]
 					</label>
 					<button
 						onClick={() => setIsEditing(true)}

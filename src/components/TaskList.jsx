@@ -4,15 +4,16 @@ import { TodoContext } from "../context/TodoContext";
 import TaskItem from "./TaskItem";
 
 function TaskList() {
-	const { todos } = useContext(TodoContext);
+	const { todos, sortByPriority } = useContext(TodoContext);
 
 	const [, drop] = useDrop({
 		accept: "TASK",
+		canDrop: () => !sortByPriority,
 	});
 
 	return (
 		<div
-			ref={drop}
+			ref={sortByPriority ? null : drop}
 			className="max-h-64 overflow-y-auto custom-scrollbar"
 			role="list"
 			aria-label="待辦事項列表"

@@ -9,6 +9,9 @@ function FilterBar() {
 		{ value: "all", label: "全部" },
 		{ value: "completed", label: "已完成" },
 		{ value: "active", label: "未完成" },
+		{ value: "highest", label: "十萬火急！⏰" },
+		{ value: "urgent", label: "等一下再說～🙆" },
+		{ value: "minor", label: "慢慢來💤" },
 	];
 
 	const customStyles = {
@@ -96,7 +99,7 @@ function FilterBar() {
 					menuPlacement="auto"
 				/>
 				<span id="filter-description" className="sr-only">
-					選擇篩選條件以顯示全部、已完成或未完成的待辦事項
+					選擇篩選條件以顯示全部、已完成、未完成或特定優先順序的待辦事項
 				</span>
 			</div>
 		</div>

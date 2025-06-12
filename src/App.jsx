@@ -9,6 +9,7 @@ import TaskList from "./components/TaskList";
 import FilterBar from "./components/FilterBar";
 import "./index.css";
 import ThemeSwitcher from "./ThemeSwitcher";
+import SortToggle from "./components/SortToggle";
 
 // 創建一個內部組件來使用 ThemeContext
 function AppContent() {
@@ -23,6 +24,7 @@ function AppContent() {
 					<ThemeSwitcher />
 					<TaskForm />
 					<FilterBar />
+					<SortToggle />
 					<TaskList />
 				</div>
 			</PixelWindow>

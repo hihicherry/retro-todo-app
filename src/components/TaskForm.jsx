@@ -5,19 +5,28 @@ import { TodoContext } from "../context/TodoContext";
 function TaskForm() {
 	const [text, setText] = useState("");
 	const [category, setCategory] = useState("Work");
+	const [priority, setPriority] = useState("minor");
 	const { addTodo } = useContext(TodoContext);
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
 		if (text.trim()) {
-			addTodo(text, category);
+			addTodo(text, category, priority);
 			setText("");
+			setCategory("Work");
+			setPriority("minor");
 		}
 	};
 
 	const categoryOptions = [
 		{ value: "Work", label: "工作" },
 		{ value: "Personal", label: "個人" },
+	];
+
+	const priorityOptions = [
+		{ value: "highest", label: "十萬火急！⏰" },
+		{ value: "urgent", label: "等一下再說～🙆" },
+		{ value: "minor", label: "慢慢來💤" },
 	];
 
 	const customStyles = {
@@ -93,6 +102,19 @@ function TaskForm() {
 				className="w-full mb-2"
 				aria-label="項目類別"
 				title="選擇待辦事項類別"
+			/>
+			<Select
+				options={priorityOptions}
+				value={priorityOptions.find(
+					(option) => option.value === priority
+				)}
+				onChange={(selectedOption) =>
+					setPriority(selectedOption ? selectedOption.value : "minor")
+				}
+				styles={customStyles}
+				className="w-full mb-2"
+				aria-label="優先順序"
+				title="選擇優先順序"
 			/>
 			<button
 				type="submit"
