@@ -251,6 +251,16 @@ function TaskItem({ todo, index }) {
 						</span>
 						]
 					</label>
+
+					{/* 待辦事項完成提示 */}
+					{todo.completed && (
+						<div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-[var(--theme-primary)] border-2 border-r-[var(--theme-accent)] border-b-[var(--theme-accent)] rounded-sm p-4 z-20 fade-in">
+							<p className="font-pixel text-sm text-center text-[var(--theme-dark)]">
+								{`任務完成！！！(ﾉ>ω<)ﾉ`}
+							</p>
+						</div>
+					)}
+
 					<button
 						onClick={() => setIsEditing(true)}
 						className="text-[var(--theme-accent)] font-pixel hover:text-[var(--theme-done)] mr-2 focus:ring-2 focus:ring-[var(--theme-secondary)] focus:outline-none"
