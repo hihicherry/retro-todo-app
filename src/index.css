@@ -46,6 +46,30 @@
 	image-rendering: pixelated; /* 確保 SVG 保持像素風 */
 }
 
+/* 提示訊息顯示特效 */
+@keyframes fade-in {
+	0% {
+		opacity: 0;
+		transform: translate(-50%, -60%);
+	}
+	10% {
+		opacity: 1;
+		transform: translate(-50%, -50%);
+	}
+	90% {
+		opacity: 1;
+		transform: translate(-50%, -50%);
+	}
+	100% {
+		opacity: 0;
+		transform: translate(-50%, -40%);
+	}
+}
+
+.animate-fade-in {
+	animation: fade-in 1.5s ease-in-out forwards;
+}
+
 /* 像素風格：PixelWindow */
 .pixel-window {
 	border: 2px solid #4a2a4a;

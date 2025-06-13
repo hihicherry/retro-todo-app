@@ -12,6 +12,7 @@ function TaskItem({ todo, index }) {
 	const [editText, setEditText] = useState(todo.text);
 	const [editPriority, setEditPriority] = useState(todo.priority || "minor");
 	const [showHeart, setShowHeart] = useState(false);
+	const [showMessage, setShowMessage] = useState(false);
 
 	// 將類別轉換為中文
 	const getCategoryText = (category) => {
@@ -43,10 +44,12 @@ function TaskItem({ todo, index }) {
 
 	// 切換完成狀態並觸發愛心動畫;
 	const handleToggle = () => {
-		toggleTodo(todo.id);
-		if (!todo.completed) {
-			setShowHeart(true); // 當任務從未完成變為完成時觸發
-		}
+		setShowHeart(true); // 觸發愛心動畫
+		setShowMessage(true); // 觸發提示訊息
+		// 延遲調用 toggleTodo，確保提示訊息有時間顯示
+		setTimeout(() => {
+			toggleTodo(todo.id);
+		}, 1500); // 延遲 1.5 秒，與動畫時間一致
 	};
 
 	// 重置 showHeart 狀態以支援重複觸發
@@ -56,6 +59,14 @@ function TaskItem({ todo, index }) {
 			return () => clearTimeout(timer);
 		}
 	}, [showHeart]);
+
+	// 重置 showMessage 狀態以支援重複觸發
+	useEffect(() => {
+		if (showMessage) {
+			const timer = setTimeout(() => setShowMessage(false), 1500); // 動畫持續 1.5 秒後重置
+			return () => clearTimeout(timer);
+		}
+	}, [showMessage]);
 
 	const [{ isDragging }, drag] = useDrag({
 		type: "TASK",
@@ -253,7 +264,7 @@ function TaskItem({ todo, index }) {
 					</label>
 
 					{/* 待辦事項完成提示 */}
-					{todo.completed && (
+					{showMessage && (
 						<div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-[var(--theme-primary)] border-2 border-r-[var(--theme-accent)] border-b-[var(--theme-accent)] rounded-sm p-4 z-20 fade-in">
 							<p className="font-pixel text-sm text-center text-[var(--theme-dark)]">
 								{`任務完成！！！(ﾉ>ω<)ﾉ`}
