@@ -13,6 +13,7 @@ function TaskList() {
 
 	return (
 		<div
+			key={sortByPriority ? "auto-sort" : "manual-sort"}
 			ref={sortByPriority ? null : drop}
 			className="max-h-64 overflow-y-auto custom-scrollbar"
 			role="list"
