@@ -18,17 +18,27 @@
 -   前端：React, Vite, Tailwind CSS (3.3.5)
 -   拖放：react-dnd, react-dnd-html5-backend
 -   樣式：像素風格（俐方體字型）
--   部署：Git Page
+-   部署：GitHub Pages
 -   其他：LocalStorage, React Context, React.memo
 
 ## 部署
 
--   Demo: [https://hihicherry.github.io/movie-search-app/](#)
--   GitHub: [https://github.com/hihicherry/retro-todo-app](#)
+-   Demo: [https://hihicherry.github.io/retro-todo-app/](https://hihicherry.github.io/retro-todo-app/)
+-   GitHub: [https://github.com/hihicherry/retro-todo-app](https://github.com/hihicherry/retro-todo-app)
 
 ## 安裝與運行
 
 1. 克隆 Repository：
     ```bash
     git clone https://github.com/hihicherry/retro-todo-app.git
+    cd retro-todo-app
     ```
+2. 安裝依賴：
+    ```bash
+    npm install
+    ```
+3. 啟動開發伺服器：
+    ```bash
+    npm run dev
+    ```
+4. 在瀏覽器開啟終端機顯示的本機網址即可使用。
